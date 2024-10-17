@@ -1,0 +1,178 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Agdasima, Arial, Helvetica;
+  font-size: 20px;
+  overflow: hidden;
+}
+
+.agdasima-regular {
+  font-family: "Agdasima", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.agdasima-bold {
+  font-family: "Agdasima", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ----INTRODUCTION------ */
+
+.intro {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: rgba(128, 128, 128, 0.489);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closed {
+  display: none;
+  transition: 0.1s smooth;
+}
+
+.introduction {
+  width: 300px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  border-radius: 20px;
+
+}
+
+.close-button {
+  width: fit-content;
+  padding: 10px 20px;
+  font-size: 1.3em;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.game-container {
+  width: 600px;
+  height: 800px;
+  margin: 10vh auto;
+  background-color: azure;
+  border-radius: 20px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  text-align: center;
+}
+
+.game-container h1 {
+  font-size: 1.5em;
+  font-weight: 800;
+  padding-top: 3vh;
+}
+
+.arrows {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
+}
+
+.right {
+  margin-left: 60px;
+}
+
+
+.arrows button {
+  width: 40px;
+  height: 40px;
+  border: none; /* Remove default border */
+  border-radius: 20px;
+  background-color: #f0f0f0; /* Set a background color */
+  box-shadow: 
+      inset 3px 5px 5px -1px rgba(255, 255, 255, 0.5), 
+      inset -3px -3px 5px -1px rgba(0, 0, 0, 0.99),
+      1px 1px 1px 2px rgba(0, 0, 0, 0.8),
+      2.5px 5px 5px 1px rgba(0, 0, 0, 0.9);
+  transition: background-color 0.2s, transform 0.1s; /* Smooth transitions */
+  outline: none; /* Remove focus outline */
+}
+
+.arrows button:hover {
+  background-color: #e0e0e0; /* Lighten on hover */
+}
+
+.arrows button.clicked {
+  background-color: yellow;
+}
+
+.arrows button:active {
+  transform: scale(0.95);
+  background-color: yellow; /* Slightly shrink on click */
+}
+
+
+/* -----RESET ENVIRONMENT------- */
+.reset {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: rgba(128, 128, 128, 0.489);
+  z-index: 1000;
+  display: none;
+}
+
+
+
+.reset.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.sticker {
+  width: 250px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+
+.reset-button {
+  width: fit-content;
+  padding: 10px 20px;
+  font-size: 1.3em;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.reset-button:hover {
+  background-color: rgb(23, 156, 23);
+}
+
+.reset-button:active{
+  background-color:rgb(85, 195, 85);
+}
+
+
+/* -----CONTROLLER STYLING------- */
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport", content="width=device-width", intial-scale="1.0">
+    <title>SnakeGame</title>
+    <link rel="stylesheet" href="snake.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="intro">
+      <div class="introduction">
+        <div>Use the arrows on your keyboard to move</div>
+        <button class="close-button">Click to Start</button>
+      </div>
+    </div>
+  
+    <div class="reset">
+      <div class="sticker">
+        <div class="game-over">Whoops! Game Over</div>
+        <button class="reset-button">RESTART</button>
+      </div>
+    </div>
+      
+      <div class="game-container">
+        <h1>SNAKE</h1>
+        <canvas id="board"></canvas>
+        <div class="arrows">
+          <button class="up-arrow"></button>
+          <div class="right-left">
+            <button class="left"></button>
+            <button class="right"></button>
+          </div>
+          <button class="down-arrow"></button>
+        </div>
+        
+      </div>
+    
+    
+    
+    <script src="snake.js"></script>
+    
+  </body>
+</html>
