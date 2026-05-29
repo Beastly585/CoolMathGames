@@ -126,7 +126,7 @@ html, body {
 /* CTA button */
 .play-cta {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   gap: 6px;
   background: none;
