@@ -1,48 +1,174 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCADE // CoolMath</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport", content="width=device-width", intial-scale="1.0">
-    <title>SnakeGame</title>
-    <link rel="stylesheet" href="snake.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet">
-  </head>
+  <div class="scanlines" aria-hidden="true"></div>
 
-  <body>
-    <div class="intro">
-      <div class="introduction">
-        <div>Use the arrows on your keyboard to move</div>
-        <button class="close-button">Click to Start</button>
+  <!-- Toggle pill — always visible -->
+  <button id="view-toggle" class="view-toggle" data-view="intro" aria-label="Switch view">
+    <span id="toggle-label">↑ BACK TO TOP</span>
+  </button>
+
+  <!-- ══ VIEW WRAPPER — slides between intro and play ══ -->
+  <div id="view-wrap" class="view-wrap">
+
+    <!-- ── INTRO VIEW ── -->
+    <section id="intro-view" class="view intro-view">
+      <div class="intro-content">
+        <p class="intro-eyebrow">COOLMATH GAMES</p>
+        <h1 class="intro-title">ARCADE</h1>
+        <p class="intro-desc">
+          Five games. One screen. Snake, Flappy, Breakout, Tetris, Asteroids —
+          pick one, crank the difficulty, and see how long you last.
+        </p>
+        <button id="play-btn" class="play-cta" aria-label="Start playing">
+          <span class="cta-arrow">↓</span>
+          <span class="cta-text">START PLAYING</span>
+        </button>
       </div>
-    </div>
-  
-    <div class="reset">
-      <div class="sticker">
-        <div class="game-over">Whoops! Game Over</div>
-        <button class="reset-button">RESTART</button>
-      </div>
-    </div>
-      
-      <div class="game-container">
-        <h1>SNAKE</h1>
-        <canvas id="board"></canvas>
-        <div class="arrows">
-          <button class="up-arrow"></button>
-          <div class="right-left">
-            <button class="left"></button>
-            <button class="right"></button>
-          </div>
-          <button class="down-arrow"></button>
+    </section>
+
+    <!-- ── PLAY VIEW ── -->
+    <section id="play-view" class="view play-view">
+      <div class="machine-layout">
+
+        <!-- Left: game selector -->
+        <div class="game-strip left-strip">
+          <p class="strip-label">GAMES</p>
+          <button class="game-pill active" data-game="snake"><span class="pill-icon">🐍</span><span class="pill-name">SNAKE</span></button>
+          <button class="game-pill" data-game="flappy"><span class="pill-icon">🐦</span><span class="pill-name">FLAPPY</span></button>
+          <button class="game-pill" data-game="breakout"><span class="pill-icon">🧱</span><span class="pill-name">BREAKOUT</span></button>
+          <button class="game-pill" data-game="tetris"><span class="pill-icon">🟦</span><span class="pill-name">TETRIS</span></button>
+          <button class="game-pill" data-game="asteroids"><span class="pill-icon">🚀</span><span class="pill-name">ASTEROIDS</span></button>
         </div>
-        
-      </div>
-    
-    
-    
-    <script src="snake.js"></script>
-    
-  </body>
+
+        <!-- Centre: the cabinet -->
+        <div class="cabinet">
+
+          <!-- Marquee — just the game name -->
+          <div class="cabinet-marquee">
+            <span id="marquee-title" class="marquee-title">SNAKE</span>
+          </div>
+
+          <!-- Bezel -->
+          <div class="cabinet-bezel">
+            <div class="bezel-hud">
+              <div class="hud-cell">
+                <span class="hud-label">SCORE</span>
+                <span id="score-display" class="hud-value score-val">0</span>
+              </div>
+              <div class="hud-cell hud-center">
+                <span id="diff-label" class="diff-badge medium">MEDIUM</span>
+              </div>
+              <div class="hud-cell hud-right">
+                <span class="hud-label">BEST</span>
+                <span id="hiscore-display" class="hud-value">0</span>
+              </div>
+            </div>
+
+            <div class="screen-frame">
+              <canvas id="canvas"></canvas>
+
+              <div id="start-overlay" class="screen-overlay">
+                <div class="overlay-box">
+                  <div id="start-title" class="overlay-title">SNAKE</div>
+                  <div id="start-desc"  class="overlay-msg">Arrow keys to move.<br>Eat the food. Don't bite yourself.</div>
+                  <button id="start-btn" class="ov-btn primary">▶ START</button>
+                </div>
+              </div>
+
+              <div id="overlay" class="screen-overlay hidden">
+                <div class="overlay-box">
+                  <div id="overlay-title" class="overlay-title">GAME OVER</div>
+                  <div id="overlay-score" class="overlay-score"></div>
+                  <div id="overlay-msg"   class="overlay-msg"></div>
+                  <div class="overlay-btns">
+                    <button id="overlay-restart" class="ov-btn primary">PLAY AGAIN</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- end bezel -->
+
+          <!-- Control panel: difficulty strip on top, dpad+buttons below -->
+          <div class="control-panel">
+
+            <!-- Difficulty row — sits like SELECT/START across the middle -->
+            <div class="cp-diff-row">
+              <span class="cp-label">DIFFICULTY</span>
+              <div class="diff-btns">
+                <button class="diff-btn" data-diff="easy">EASY</button>
+                <button class="diff-btn active" data-diff="medium">MED</button>
+                <button class="diff-btn" data-diff="hard">HARD</button>
+              </div>
+            </div>
+
+            <!-- Controls row: dpad left, action buttons right -->
+            <div class="cp-controls-row">
+              <div class="cp-section dpad-section">
+                <div class="dpad">
+                  <div class="dpad-row"><button class="dpad-btn" data-dir="up">▲</button></div>
+                  <div class="dpad-row">
+                    <button class="dpad-btn" data-dir="left">◀</button>
+                    <button class="dpad-btn dpad-center" data-dir="action">●</button>
+                    <button class="dpad-btn" data-dir="right">▶</button>
+                  </div>
+                  <div class="dpad-row"><button class="dpad-btn" data-dir="down">▼</button></div>
+                </div>
+              </div>
+
+              <div class="cp-section ab-section">
+                <div class="action-btns">
+                  <button class="ab-btn ab-a" data-dir="action">A</button>
+                  <button class="ab-btn ab-b" data-dir="up">B</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="cabinet-feet">
+            <div class="foot"></div>
+            <div class="foot"></div>
+          </div>
+        </div><!-- end cabinet -->
+
+        <!-- Right: info panel -->
+        <div class="game-strip right-strip">
+          <div class="info-panel">
+            <div class="info-section">
+              <p class="info-heading">HOW TO PLAY</p>
+              <div id="how-to-play" class="how-to-play">
+                <p>Use arrow keys or the D-pad below the screen.</p>
+                <p>Switch games with the buttons on the left.</p>
+              </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-section">
+              <p class="info-heading">DIFFICULTY</p>
+              <div class="diff-legend">
+                <div class="dl-row"><span class="dl-dot easy-dot"></span><span class="dl-text">Easy &mdash; <em>relaxed pace</em></span></div>
+                <div class="dl-row"><span class="dl-dot med-dot"></span><span class="dl-text">Medium &mdash; <em>default speed</em></span></div>
+                <div class="dl-row"><span class="dl-dot hard-dot"></span><span class="dl-text">Hard &mdash; <em>1.6× faster</em></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end machine-layout -->
+    </section>
+
+  </div><!-- end view-wrap -->
+
+  <script src="games.js"></script>
+</body>
 </html>
