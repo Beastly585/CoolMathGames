@@ -226,6 +226,46 @@ document.querySelectorAll('.dpad-btn, .ab-btn').forEach(btn => {
   btn.addEventListener('mousedown', fire);
 });
 
+// ── Swipe detection on canvas ─────────────────────────────────────────────
+// A swipe on the game screen fires the same mobile(dir) as the d-pad buttons.
+// Minimum 30px movement to register; diagonal threshold 2:1 to pick the axis.
+;(function attachSwipe() {
+  let sx = 0, sy = 0, active = false;
+  const SWIPE_MIN = 30;   // px
+  const AXIS_RATIO = 1.5; // must be this many times stronger on one axis
+
+  canvas.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    active = true;
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', e => {
+    if (!active) return;
+    active = false;
+    if (e.changedTouches.length !== 1) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    const adx = Math.abs(dx), ady = Math.abs(dy);
+
+    // Must exceed minimum distance
+    if (adx < SWIPE_MIN && ady < SWIPE_MIN) return;
+
+    let dir;
+    if (adx > ady * AXIS_RATIO)        dir = dx > 0 ? 'right' : 'left';
+    else if (ady > adx * AXIS_RATIO)   dir = dy > 0 ? 'down'  : 'up';
+    else return; // too diagonal — ignore
+
+    if (activeGame?.mobile) activeGame.mobile(dir);
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', e => {
+    // Prevent the page from scrolling while swiping on canvas
+    e.preventDefault();
+  }, { passive: false });
+})();
+
 // ── Boot ─────────────────────────────────────────────────────────────────
 // Set correct initial toggle label (we start on intro)
 toggleLabel.textContent = '↓ PLAY GAMES';
